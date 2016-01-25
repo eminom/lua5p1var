@@ -630,6 +630,11 @@ static int constfolding (OpCode op, expdesc *e1, expdesc *e2) {
   v1 = e1->u.nval;
   v2 = e2->u.nval;
   switch (op) {
+  case OP_LSHIFT: r = luai_numlshift(v1, v2); break;
+  case OP_RSHIFT: r = luai_numrshift(v1, v2); break;
+  case OP_BITAND: r = luai_numbitand(v1, v2); break;
+  case OP_BITXOR: r = luai_numbitxor(v1, v2); break;
+  case OP_BITOR:  r = luai_numbitor (v1, v2); break;
     case OP_ADD: r = luai_numadd(v1, v2); break;
     case OP_SUB: r = luai_numsub(v1, v2); break;
     case OP_MUL: r = luai_nummul(v1, v2); break;
@@ -721,8 +726,8 @@ void luaK_infix (FuncState *fs, BinOpr op, expdesc *v) {
       luaK_exp2nextreg(fs, v);  /* operand must be on the `stack' */
       break;
     }
-	//case OPR_BITAND: case OPR_BITXOR: case OPR_BITOR:
-	//case OPR_LSHIFT: case OPR_RSHIFT:
+	case OPR_BITAND: case OPR_BITXOR: case OPR_BITOR:
+	case OPR_LSHIFT: case OPR_RSHIFT:
     case OPR_ADD: case OPR_SUB: case OPR_MUL: case OPR_DIV:
     case OPR_MOD: case OPR_POW: {
       if (!isnumeral(v)) luaK_exp2RK(fs, v);
