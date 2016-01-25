@@ -31,6 +31,8 @@ enum RESERVED {
   TK_CONCAT, TK_DOTS, TK_EQ, TK_GE, TK_LE, TK_NE, TK_NUMBER,
   TK_NAME, TK_STRING, 
   TK_LSHIFT, TK_RSHIFT,  // Insertion of Bit operators. << and >> Just before EOS
+  TK_BITAND, TK_BITXOR, TK_BITOR, 
+  TK_POWER, // Gotta fix this symbol for the power.
   TK_EOS
 };
 

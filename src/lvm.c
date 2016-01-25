@@ -479,6 +479,18 @@ void luaV_execute (lua_State *L, int nexeccalls) {
 			arith_op(luai_numrshift, TM_RSHIFT);
 			break;
 	  }
+	  case OP_BITAND: {
+			arith_op(luai_numbitand, TM_BITAND);
+			break;
+	  }
+	  case OP_BITXOR: {
+		    arith_op(luai_numbitxor, TM_BITXOR);
+			break;
+	  }
+	  case OP_BITOR: {
+		    arith_op(luai_numbitor, TM_BITOR);
+			break;
+	  }
       case OP_ADD: {
         arith_op(luai_numadd, TM_ADD);
         continue;

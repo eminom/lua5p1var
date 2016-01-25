@@ -721,6 +721,8 @@ void luaK_infix (FuncState *fs, BinOpr op, expdesc *v) {
       luaK_exp2nextreg(fs, v);  /* operand must be on the `stack' */
       break;
     }
+	//case OPR_BITAND: case OPR_BITXOR: case OPR_BITOR:
+	//case OPR_LSHIFT: case OPR_RSHIFT:
     case OPR_ADD: case OPR_SUB: case OPR_MUL: case OPR_DIV:
     case OPR_MOD: case OPR_POW: {
       if (!isnumeral(v)) luaK_exp2RK(fs, v);
@@ -764,6 +766,9 @@ void luaK_posfix (FuncState *fs, BinOpr op, expdesc *e1, expdesc *e2) {
       }
       break;
     }
+	case OPR_BITAND: codearith(fs, OP_BITAND, e1, e2); break;
+	case OPR_BITXOR: codearith(fs, OP_BITXOR, e1, e2); break;
+	case OPR_BITOR:  codearith(fs, OP_BITOR,  e1, e2); break;
 	case OPR_LSHIFT: codearith(fs, OP_LSHIFT, e1, e2); break;
 	case OPR_RSHIFT: codearith(fs, OP_RSHIFT, e1, e2); break;
     case OPR_ADD: codearith(fs, OP_ADD, e1, e2); break;

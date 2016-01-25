@@ -122,6 +122,9 @@ static void PrintCode(const Proto* f)
    case OP_SETTABLE:
    case OP_LSHIFT:
    case OP_RSHIFT:
+   case OP_BITAND:
+   case OP_BITXOR:
+   case OP_BITOR:
    case OP_ADD:
    case OP_SUB:
    case OP_MUL:

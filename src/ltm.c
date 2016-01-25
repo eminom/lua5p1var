@@ -32,11 +32,13 @@ void luaT_init (lua_State *L) {
     "__index", "__newindex",
     "__gc", "__mode", "__eq",
 	"__lshift", "__rshift",
+	"__bitand", "__bitxor", "__bitor",
     "__add", "__sub", "__mul", "__div", "__mod",
     "__pow", "__unm", "__len", "__lt", "__le",
     "__concat", "__call"
   };
   int i;
+  _LSTATIC_ASSERT( sizeof(luaT_eventname)/sizeof(*luaT_eventname) == TM_N);
   for (i=0; i<TM_N; i++) {
     G(L)->tmname[i] = luaS_new(L, luaT_eventname[i]);
     luaS_fix(G(L)->tmname[i]);  /* never collect these names */

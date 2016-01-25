@@ -532,6 +532,9 @@
 #include <math.h>
 #define luai_numlshift(a,b)	(((int)(a)) << ((int)(b)))  // -- Left shifting 
 #define luai_numrshift(a,b) (((int)(a)) >> ((int)(b)))  // -- Right shifting
+#define luai_numbitand(a,b) (((int)(a)) & ((int)(b)))   // Bit and 
+#define luai_numbitxor(a,b) (((int)(a)) ^ ((int)(b)))   // Bit xor
+#define luai_numbitor(a,b)  (((int)(a)) | ((int)(b)))   // Bit or
 #define luai_numadd(a,b)	((a)+(b))
 #define luai_numsub(a,b)	((a)-(b))
 #define luai_nummul(a,b)	((a)*(b))

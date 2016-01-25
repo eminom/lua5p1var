@@ -51,6 +51,11 @@ const char *const luaP_opnames[NUM_OPCODES+1] = {
   "SETLIST",
   "CLOSE",
   "CLOSURE",
+  "LSHIFT",
+  "RSHIFT",
+  "BITAND",
+  "BITXOR",
+  "BITOR",
   "VARARG",
   NULL
 };
@@ -100,6 +105,9 @@ const lu_byte luaP_opmodes[NUM_OPCODES] = {
 
  ,opmode(0, 1, OpArgK, OpArgK, iABC)        /* OP_LSHIFT */
  ,opmode(0, 1, OpArgK, OpArgK, iABC)        /* OP_RSHIFT */
+ ,opmode(0, 1, OpArgK, OpArgK, iABC)        /* OP_BITAND */
+ ,opmode(0, 1, OpArgK, OpArgK, iABC)        /* OP_BITXOR */
+ ,opmode(0, 1, OpArgK, OpArgK, iABC)        /* OP_BITOR */
 
  ,opmode(0, 1, OpArgU, OpArgN, iABC)		/* OP_VARARG */
 };

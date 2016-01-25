@@ -792,7 +792,11 @@ static BinOpr getbinopr (int op) {
     case '*': return OPR_MUL;
     case '/': return OPR_DIV;
     case '%': return OPR_MOD;
-    case '^': return OPR_POW;
+    //case '^': return OPR_POW;
+	case TK_POWER: return OPR_POW;
+	case '|': return OPR_BITOR;
+	case '^': return OPR_BITXOR;
+	case '&': return OPR_BITAND;
     case TK_CONCAT: return OPR_CONCAT;
     case TK_NE: return OPR_NE;
     case TK_EQ: return OPR_EQ;
@@ -818,7 +822,10 @@ static const struct {
    {3, 3}, {3, 3},                  /* equality and inequality */
    {3, 3}, {3, 3}, {3, 3}, {3, 3},  /* order */
    {2, 2}, {1, 1},                  /* logical (and/or) */
-   {7, 7}, {7, 7}                   // Left shift and Right shift
+   {5, 5}, {5, 5},                  // Left shift and Right shift. Less prio to + and -
+   {2, 2}, // BIT AND
+   {2, 2}, // BIT XOR
+   {1, 1}, // BIT OR
 };
 
 #define UNARY_PRIORITY	8  /* priority for unary operators */

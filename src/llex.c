@@ -42,6 +42,8 @@ const char *const luaX_tokens [] = {
     "..", "...", "==", ">=", "<=", "~=",
     "<number>", "<name>", "<string>", 
 	"<<", ">>",  
+	"&", "^", "|",
+	"^^", // The power token(not a single char anymore)
 	"<eof>",
     NULL
 };
@@ -387,6 +389,11 @@ static int llex (LexState *ls, SemInfo *seminfo) {
         else if('=' == ls->current){ next(ls); return TK_GE; }
 		else {next(ls); return TK_RSHIFT;}
       }
+	  case '^': {
+		  next(ls);
+		  if(ls->current!='^') return '^';
+		  else{ next(ls); return TK_POWER;}
+		}
       case '~': {
         next(ls);
         if (ls->current != '=') return '~';
