@@ -827,7 +827,7 @@ static const struct {
    {2, 2}, // BIT XOR
    {1, 1}, // BIT OR
 };
-
+_LSTATIC_ASSERT( sizeof(priority)/sizeof(*priority) == OPR_NOBINOPR);
 #define UNARY_PRIORITY	8  /* priority for unary operators */
 
 

@@ -7,13 +7,13 @@
 #define lopcodes_c
 #define LUA_CORE
 
-
+#include "lua.h"
 #include "lopcodes.h"
 
 
 /* ORDER OP */
 
-const char *const luaP_opnames[NUM_OPCODES+1] = {
+const char *const luaP_opnames[] = {
   "MOVE",
   "LOADK",
   "LOADBOOL",
@@ -60,10 +60,12 @@ const char *const luaP_opnames[NUM_OPCODES+1] = {
   NULL
 };
 
+_LSTATIC_ASSERT(NUM_OPCODES+1 == sizeof(luaP_opnames) / sizeof(*luaP_opnames));
+
 
 #define opmode(t,a,b,c,m) (((t)<<7) | ((a)<<6) | ((b)<<4) | ((c)<<2) | (m))
 
-const lu_byte luaP_opmodes[NUM_OPCODES] = {
+const lu_byte luaP_opmodes[] = {
 /*       T  A    B       C     mode		   opcode	*/
   opmode(0, 1, OpArgR, OpArgN, iABC) 		/* OP_MOVE */
  ,opmode(0, 1, OpArgK, OpArgN, iABx)		/* OP_LOADK */
@@ -112,3 +114,4 @@ const lu_byte luaP_opmodes[NUM_OPCODES] = {
  ,opmode(0, 1, OpArgU, OpArgN, iABC)		/* OP_VARARG */
 };
 
+_LSTATIC_ASSERT(NUM_OPCODES == sizeof(luaP_opmodes) / sizeof(*luaP_opmodes));
