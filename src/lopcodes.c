@@ -60,7 +60,7 @@ const char *const luaP_opnames[] = {
   NULL
 };
 
-_LSTATIC_ASSERT(NUM_OPCODES+1 == sizeof(luaP_opnames) / sizeof(*luaP_opnames));
+_LSTATIC_EXPECT_ARRAY_SIZE(NUM_OPCODES+1, luaP_opnames);
 
 
 #define opmode(t,a,b,c,m) (((t)<<7) | ((a)<<6) | ((b)<<4) | ((c)<<2) | (m))
@@ -114,4 +114,4 @@ const lu_byte luaP_opmodes[] = {
  ,opmode(0, 1, OpArgU, OpArgN, iABC)		/* OP_VARARG */
 };
 
-_LSTATIC_ASSERT(NUM_OPCODES == sizeof(luaP_opmodes) / sizeof(*luaP_opmodes));
+_LSTATIC_EXPECT_ARRAY_SIZE(NUM_OPCODES, luaP_opmodes);

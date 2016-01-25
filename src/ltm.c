@@ -38,7 +38,7 @@ void luaT_init (lua_State *L) {
     "__concat", "__call"
   };
   int i;
-  _LSTATIC_ASSERT( sizeof(luaT_eventname)/sizeof(*luaT_eventname) == TM_N);
+  _LSTATIC_EXPECT_ARRAY_SIZE(TM_N, luaT_eventname);
   for (i=0; i<TM_N; i++) {
     G(L)->tmname[i] = luaS_new(L, luaT_eventname[i]);
     luaS_fix(G(L)->tmname[i]);  /* never collect these names */

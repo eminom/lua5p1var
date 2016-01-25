@@ -385,5 +385,6 @@ struct lua_Debug {
 ******************************************************************************/
 
 #define _LSTATIC_ASSERT(b)	typedef char _static_assert_t[(b)];
+#define _LSTATIC_EXPECT_ARRAY_SIZE(size, arr)	_LSTATIC_ASSERT((size)==(sizeof(arr)/sizeof(*arr)))
 
 #endif
