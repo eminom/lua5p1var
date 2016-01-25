@@ -21,6 +21,8 @@ typedef enum {
   TM_GC,
   TM_MODE,
   TM_EQ,  /* last tag method with `fast' access */
+	TM_LSHIFT,  /*Insertion of bit operator */
+	TM_RSHIFT,	/*Insertion of bit operator : Right shift */
   TM_ADD,
   TM_SUB,
   TM_MUL,

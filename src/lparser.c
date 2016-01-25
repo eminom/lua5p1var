@@ -802,6 +802,8 @@ static BinOpr getbinopr (int op) {
     case TK_GE: return OPR_GE;
     case TK_AND: return OPR_AND;
     case TK_OR: return OPR_OR;
+	case TK_LSHIFT: return OPR_LSHIFT;
+	case TK_RSHIFT: return OPR_RSHIFT;
     default: return OPR_NOBINOPR;
   }
 }
@@ -815,7 +817,8 @@ static const struct {
    {10, 9}, {5, 4},                 /* power and concat (right associative) */
    {3, 3}, {3, 3},                  /* equality and inequality */
    {3, 3}, {3, 3}, {3, 3}, {3, 3},  /* order */
-   {2, 2}, {1, 1}                   /* logical (and/or) */
+   {2, 2}, {1, 1},                  /* logical (and/or) */
+   {7, 7}, {7, 7}                   // Left shift and Right shift
 };
 
 #define UNARY_PRIORITY	8  /* priority for unary operators */

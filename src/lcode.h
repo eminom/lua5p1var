@@ -29,6 +29,7 @@ typedef enum BinOpr {
   OPR_NE, OPR_EQ,
   OPR_LT, OPR_LE, OPR_GT, OPR_GE,
   OPR_AND, OPR_OR,
+  OPR_LSHIFT, OPR_RSHIFT,
   OPR_NOBINOPR
 } BinOpr;
 

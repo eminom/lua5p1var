@@ -471,6 +471,14 @@ void luaV_execute (lua_State *L, int nexeccalls) {
         Protect(luaV_gettable(L, rb, RKC(i), ra));
         continue;
       }
+	  case OP_LSHIFT:{
+			arith_op(luai_numlshift, TM_LSHIFT);
+			continue;
+      }
+	  case OP_RSHIFT: {
+			arith_op(luai_numrshift, TM_RSHIFT);
+			break;
+	  }
       case OP_ADD: {
         arith_op(luai_numadd, TM_ADD);
         continue;

@@ -120,6 +120,8 @@ static void PrintCode(const Proto* f)
     if (ISK(c)) { printf("\t; "); PrintConstant(f,INDEXK(c)); }
     break;
    case OP_SETTABLE:
+   case OP_LSHIFT:
+   case OP_RSHIFT:
    case OP_ADD:
    case OP_SUB:
    case OP_MUL:
