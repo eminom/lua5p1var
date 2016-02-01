@@ -10,6 +10,8 @@
 #include <stdarg.h>
 #include <string.h>
 
+#include <stdio.h>
+
 #define lapi_c
 #define LUA_CORE
 
@@ -1085,3 +1087,12 @@ LUA_API const char *lua_setupvalue (lua_State *L, int funcindex, int n) {
   return name;
 }
 
+int __lua_assert(int b, const char *msg)
+{
+	if(!b)
+	{
+		printf("%s is not met.\n", msg);
+		abort();
+	}
+	return 0;
+}

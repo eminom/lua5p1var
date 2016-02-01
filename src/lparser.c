@@ -938,6 +938,38 @@ static void check_conflict (LexState *ls, struct LHS_assign *lh, expdesc *v) {
 }
 
 
+
+
+
+
+
+
+static void assignment_synthesize(LexState *ls, struct LHS_assign *lh, int nvars
+								  , int token_assert
+								  , BinOpr binOpr) {
+	expdesc e, em;
+	int nexps;
+	if( nvars != 1 ){
+		luaX_syntaxerror(ls, "More than one left-hand-sided vars are present for `complex assignment'");
+	}
+	checknext(ls, token_assert);
+	nexps = explist1(ls, &e);
+	if(nexps!=1){
+		luaX_syntaxerror(ls, "Expecting only one expression for `complex assignment'");
+	}
+	em = lh->v;
+	luaK_posfix(ls->fs, binOpr, &em, &e);
+	luaK_storevar(ls->fs, &lh->v, &em);
+}
+
+
+#define _AssignComb(Token, BinOpr)	\
+	case Token:{\
+		assignment_synthesize(ls, lh, nvars, Token, BinOpr);\
+		return;\
+	}break;
+
+
 static void assignment (LexState *ls, struct LHS_assign *lh, int nvars) {
   expdesc e;
   check_condition(ls, VLOCAL <= lh->v.k && lh->v.k <= VINDEXED,
@@ -953,19 +985,38 @@ static void assignment (LexState *ls, struct LHS_assign *lh, int nvars) {
     assignment(ls, &nv, nvars+1);
   }
   else {  /* assignment -> `=' explist1 */
-    int nexps;
-    checknext(ls, '=');
-    nexps = explist1(ls, &e);
-    if (nexps != nvars) {
-      adjust_assign(ls, nvars, nexps, &e);
-      if (nexps > nvars)
-        ls->fs->freereg -= nexps - nvars;  /* remove extra values */
-    }
-    else {
-      luaK_setoneret(ls->fs, &e);  /* close last expression */
-      luaK_storevar(ls->fs, &lh->v, &e);
-      return;  /* avoid default */
-    }
+	  /* The operator assignments are all expected one. */
+	  /* The current expression is restrict to the simpel form*/
+	  /*  LHS = expr */
+	  /* and only one(expecting only 1) */
+	  switch(ls->t.token){
+		_AssignComb(TK_PLUSASSIGN, OPR_ADD)
+		_AssignComb(TK_MINUSASSIGN, OPR_SUB)
+		_AssignComb(TK_MULASSIGN, OPR_MUL)
+		_AssignComb(TK_DIVASSIGN, OPR_DIV)
+		_AssignComb(TK_MODASSIGN, OPR_MOD)
+		_AssignComb(TK_LSHIFTASSIGN, OPR_LSHIFT)
+		_AssignComb(TK_RSHIFTASSIGN, OPR_RSHIFT)
+		case '=':{
+		  //The original path
+		  int nexps;
+		  checknext(ls, '=');
+		  nexps = explist1(ls, &e);
+		  if (nexps != nvars) {
+			adjust_assign(ls, nvars, nexps, &e);
+			if (nexps > nvars)
+			  ls->fs->freereg -= nexps - nvars;  /* remove extra values */
+		  }
+		  else {
+			luaK_setoneret(ls->fs, &e);  /* close last expression */
+			luaK_storevar(ls->fs, &lh->v, &e);
+			return;  /* avoid default */
+		  }
+	    }break;
+		default:
+		  luaX_syntaxerror(ls, "Expecting an assignment operator");
+		  break;
+	  }//End of switch
   }
   init_exp(&e, VNONRELOC, ls->fs->freereg-1);  /* default assignment */
   luaK_storevar(ls->fs, &lh->v, &e);

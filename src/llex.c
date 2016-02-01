@@ -44,6 +44,7 @@ const char *const luaX_tokens [] = {
 	"<<", ">>",  
 	"&", "^", "|",
 	"^^", // The power token(not a single char anymore)
+	"+=", "-=", "*=", "/=", "%=", "<<=", ">>=",	//~ The plus-assign operator (New)
 	"<eof>",
     NULL
 };
@@ -346,7 +347,12 @@ static int llex (LexState *ls, SemInfo *seminfo) {
       }
       case '-': {
         next(ls);
-        if (ls->current != '-') return '-';
+        if (ls->current != '-')
+		{
+			if(ls->current != '=') return '-';
+			next(ls); //~ We need to swallow the = (as `-=' is combined as one)
+			return TK_MINUSASSIGN;
+		}
         /* else is a comment */
         next(ls);
         if (ls->current == '[') {
@@ -381,19 +387,47 @@ static int llex (LexState *ls, SemInfo *seminfo) {
         next(ls);
         if (ls->current != '=' && ls->current != '<') return '<';
         else if('=' == ls->current){ next(ls); return TK_LE; }
-		else {next(ls); return TK_LSHIFT;}
+		else {
+			next(ls); 
+			if(ls->current!='=')return TK_LSHIFT;
+			else {next(ls); return TK_LSHIFTASSIGN;}
+		}
       }
       case '>': {
         next(ls);
         if (ls->current != '=' && ls->current != '>') return '>';
         else if('=' == ls->current){ next(ls); return TK_GE; }
-		else {next(ls); return TK_RSHIFT;}
+		else {
+			next(ls); 
+			if(ls->current!='=')return TK_RSHIFT;
+			else{ next(ls); return TK_RSHIFTASSIGN;}
+		}
       }
 	  case '^': {
 		  next(ls);
 		  if(ls->current!='^') return '^';
 		  else{ next(ls); return TK_POWER;}
 		}
+	  case '+': {
+		  next(ls);
+		  if(ls->current!='=') return '+';
+		  else{ next(ls); return TK_PLUSASSIGN;}
+	  }
+	  case '*':{
+		  next(ls);
+		  if(ls->current!='=')return '*';
+		  else{next(ls); return TK_MULASSIGN;}
+	   }
+	  case '/':{
+		  next(ls);
+		  if(ls->current!='=')return '/';
+		  else{next(ls); return TK_DIVASSIGN;}
+	  }
+	  case '%':{
+		  next(ls);
+		  if(ls->current!='=')return '%';
+		  else{next(ls);return TK_MODASSIGN;}
+      }
       case '~': {
         next(ls);
         if (ls->current != '=') return '~';

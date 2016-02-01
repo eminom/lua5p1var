@@ -762,6 +762,12 @@ union luai_Cast { double l_d; long l_l; };
 ** without modifying the main part of the file.
 */
 
+#ifndef lua_assert
+#define lua_assert(e)	__lua_assert((e), #e)
+extern int __lua_assert(int b, const char *msg);
+#else
+#error lua_assert is already defined.
+#endif
 
 
 #endif

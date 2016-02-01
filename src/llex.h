@@ -33,6 +33,8 @@ enum RESERVED {
   TK_LSHIFT, TK_RSHIFT,  // Insertion of Bit operators. << and >> Just before EOS
   TK_BITAND, TK_BITXOR, TK_BITOR, 
   TK_POWER, // Gotta fix this symbol for the power.
+  TK_PLUSASSIGN, TK_MINUSASSIGN, TK_MULASSIGN, TK_DIVASSIGN, TK_MODASSIGN,	//~
+  TK_LSHIFTASSIGN, TK_RSHIFTASSIGN,
   TK_EOS
 };
 
